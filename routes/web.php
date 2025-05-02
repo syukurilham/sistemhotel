@@ -3,10 +3,12 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoomController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\LandingController;
+use App\Http\Controllers\ReservationController;
+use App\Http\Controllers\AdminReservationController;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+
+Route::get('/', [LandingController::class, 'index']);
 
 Route::get('/dashboard', function () {
     return view('dashboard');
