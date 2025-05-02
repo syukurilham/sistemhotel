@@ -6,22 +6,33 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LandingController;
 use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\AdminReservationController;
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\Auth\RegisteredUserController;
 
+// Halaman Landing
+Route::get('/', [LandingController::class, 'index'])->name('landing');
 
-Route::get('/', [LandingController::class, 'index']);
+// Rute login dan register untuk user yang belum login
+Route::middleware('guest')->group(function () {
+    Route::get('/login', [AuthenticatedSessionController::class, 'create'])->name('login');
+    Route::post('/login', [AuthenticatedSessionController::class, 'store']);
+    Route::get('/register', [RegisteredUserController::class, 'create'])->name('register');
+    Route::post('/register', [RegisteredUserController::class, 'store']);
+});
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+// Rute dashboard hanya untuk user yang sudah login
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/dashboard', function () {
+        return view('dashboard');
+    })->name('dashboard');
 
-Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::resource('rooms', RoomController::class);
     Route::resource('reservations', ReservationController::class);
-    Route::resource('reservations', ReservationController::class);
     Route::get('/admin/reservations', [AdminReservationController::class, 'index'])->name('admin.reservations');
 });
 
 require __DIR__.'/auth.php';
+
