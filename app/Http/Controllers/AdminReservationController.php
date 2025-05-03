@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Reservation;
+
+
 
 class AdminReservationController extends Controller
 {
@@ -11,4 +14,9 @@ class AdminReservationController extends Controller
         $reservations = Reservation::with(['user', 'room'])->latest()->get();
         return view('admin.reservations.index', compact('reservations'));
     }
+    public function profile()
+    {
+        return view('admin.reservation.index');
+    }
+
 }

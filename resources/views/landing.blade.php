@@ -16,7 +16,7 @@
     <!-- Tentang -->
     <section id="about" class="py-16 px-4 text-center max-w-5xl mx-auto">
         <h2 class="text-3xl font-bold mb-4">Tentang Kami</h2>
-        <p class="text-gray-600">HotelKu adalah hotel modern dengan fasilitas terbaik dan pelayanan prima. Kami menyediakan berbagai tipe kamar yang nyaman untuk liburan maupun perjalanan bisnis Anda.</p>
+        <p class="text-gray-600">HotelKu adalah hotel modern dengan fasilitas terbaik dan pelayanan prima...</p>
     </section>
 
     <!-- Fitur -->
