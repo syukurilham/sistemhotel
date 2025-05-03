@@ -8,6 +8,8 @@ use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\AdminReservationController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\RegisteredUserController;
+use App\Http\Controllers\UserController;
+
 
 // Halaman Landing
 Route::get('/', [LandingController::class, 'index'])->name('landing');
@@ -20,10 +22,9 @@ Route::middleware('guest')->group(function () {
     Route::post('/register', [RegisteredUserController::class, 'store']);
 });
 
-Route::middleware('auth')->get('/profile', [ProfileController::class, 'show'])->name('profile');
-
 Route::middleware(['auth'])->group(function () {
 
+    Route::get('/users/profile', [UserController::class, 'profile'])->name('users.profile');
 
     // Admin Routes
     Route::middleware(['role:admin'])->group(function () {
@@ -38,9 +39,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return view('dashboard');
     })->name('dashboard');
 
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::resource('rooms', RoomController::class);
     Route::resource('reservations', ReservationController::class);
 });
