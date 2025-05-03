@@ -19,6 +19,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        // Mendaftarkan middleware di sini
+        $this->app['router']->aliasMiddleware('role', \App\Http\Middleware\CheckRole::class);
     }
 }

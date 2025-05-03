@@ -9,14 +9,15 @@ use App\Models\Reservation;
 
 class AdminReservationController extends Controller
 {
+    
     public function index()
     {
         $reservations = Reservation::with(['user', 'room'])->latest()->get();
-        return view('admin.reservations.index', compact('reservations'));
+        return view('admin.reservation.index', compact('reservations'));
     }
     public function profile()
     {
-        return view('admin.reservation.index');
+        return view('admin.index');
     }
 
 }

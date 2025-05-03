@@ -9,6 +9,7 @@ use App\Http\Controllers\AdminReservationController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\UserController;
+use App\Http\Middleware\CheckRole;
 
 
 // Halaman Landing
@@ -27,10 +28,13 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/users/profile', [UserController::class, 'profile'])->name('users.profile');
 
     // Admin Routes
-    Route::middleware(['role:admin'])->group(function () {
-    Route::get('/admin/reservations', [AdminReservationController::class, 'profile'])->name('admin.reservations');
+    // Route::middleware(['role:admin'])->group(function () {
+    // Route::get('/admin/reservations', [AdminReservationController::class, 'index'])->name('admin.reservations');
+    // });
+});
+
+Route::middleware([CheckRole::class . ':admin'])->group(function () {
     Route::get('/admin/reservations', [AdminReservationController::class, 'index'])->name('admin.reservations');
-    });
 });
 
 // Rute dashboard hanya untuk user yang sudah login
