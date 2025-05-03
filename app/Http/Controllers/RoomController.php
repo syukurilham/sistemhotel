@@ -10,9 +10,15 @@ class RoomController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $rooms = Room::all();
+        $query = Room::query();
+        if ($request->filled('type')) {
+            $query->where('type', $request->type);
+        }
+
+        $rooms = $query->where('is_available', true)->get();
+
         return view('rooms.index', compact('rooms'));
     }
 
@@ -44,22 +50,24 @@ class RoomController extends Controller
      */
     public function show(string $id)
     {
+        $room = Room::findOrFail($id);
         return view('rooms.show', compact('room'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(string $id)
     {
+        $room = Room::findOrFail($id);
         return view('rooms.edit', compact('room'));
     }
+
 
     /**
      * Update the specified resource in storage.
      */
     public function update(Request $request, string $id)
     {
+        $room = Room::findOrFail($id); // tambahkan ini
+
         $request->validate([
             'room_number' => 'required|unique:rooms,room_number,' . $room->id,
             'type' => 'required',
@@ -70,11 +78,13 @@ class RoomController extends Controller
         return redirect()->route('rooms.index')->with('success', 'Kamar berhasil diperbarui.');
     }
 
+
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(string $id)
     {
+        $room = Room::findOrFail($id);
         $room->delete();
         return redirect()->route('rooms.index')->with('success', 'Kamar berhasil dihapus.');
     }

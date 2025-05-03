@@ -20,6 +20,18 @@ Route::middleware('guest')->group(function () {
     Route::post('/register', [RegisteredUserController::class, 'store']);
 });
 
+Route::middleware('auth')->get('/profile', [ProfileController::class, 'show'])->name('profile');
+
+Route::middleware(['auth'])->group(function () {
+
+
+    // Admin Routes
+    Route::middleware(['role:admin'])->group(function () {
+    Route::get('/admin/reservations', [AdminReservationController::class, 'profile'])->name('admin.reservations');
+    Route::get('/admin/reservations', [AdminReservationController::class, 'index'])->name('admin.reservations');
+    });
+});
+
 // Rute dashboard hanya untuk user yang sudah login
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', function () {
@@ -31,8 +43,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::resource('rooms', RoomController::class);
     Route::resource('reservations', ReservationController::class);
-    Route::get('/admin/reservations', [AdminReservationController::class, 'index'])->name('admin.reservations');
 });
 
-require __DIR__.'/auth.php';
-
+require __DIR__ . '/auth.php';
