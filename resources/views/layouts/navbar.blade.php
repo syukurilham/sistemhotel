@@ -21,34 +21,31 @@
             </a>
         </div>
 
-        <div class="hidden md:flex space-x-4 items-center relative">
+        <div class="hidden md:flex space-x-4 items-center">
             @auth
-            @if(Auth::user()->is_admin)
-                    <!-- Admin Dropdown with Hover -->
-                    <div class="relative group">
-                        <button class="flex items-center gap-1 text-sm text-gray-700 font-medium focus:outline-none">
-                            {{ Auth::user()->name }}
-                            <svg class="w-4 h-4 fill-current text-gray-700" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M5.25 7.5l4.5 4.5 4.5-4.5H5.25z" clip-rule="evenodd" />
-                            </svg>
-                        </button>
-                        <div
-                            class="absolute right-0 mt-2 w-48 bg-white border rounded-lg shadow-lg opacity-0 invisible group-hover:visible group-hover:opacity-100 transition duration-300 z-40">
-                            <a href="{{ route('admin.profile') }}" class="block px-4 py-2 hover:bg-gray-100">Profil Admin</a>
-                            <a href="{{ route('admin.dashboard') }}" class="block px-4 py-2 hover:bg-gray-100">Dashboard</a>
-                        </div>
-                    </div>
-                @else
-                    <!-- Nama User -->
-                    <a href="{{ route('users.profile') }}" class="text-sm text-gray-700 font-medium hover:text-blue-600">
-                        {{ Auth::user()->name }}
-                    </a>
-                @endif
+            @if(Auth::user()->role === 'admin')
+            <!-- Dashboard Admin -->
+            <a href="{{ route('admin.reservations') }}"
+                class="hover:text-blue-600 transition duration-300 {{ request()->is('admin/dashboard') ? 'font-bold text-blue-600 border-b-2 border-blue-600' : '' }}">
+                Dashboard
+            </a>
+            <!-- Nama Admin sebagai link ke profil -->
+            <a href="{{ route('users.profile') }}" class="text-sm text-gray-700 font-medium hover:text-blue-600 {{ request()->is('users/profile') ? 'font-bold text-blue-600' : '' }}">
+                {{ Auth::user()->name }}
+            </a>
             @else
-                <a href="{{ route('login') }}" class="text-sm text-blue-600 hover:text-blue-800 transition">Login</a>
-                <a href="{{ route('register') }}" class="text-sm text-blue-600 hover:text-blue-800 transition">Daftar</a>
+            <!-- Nama User sebagai link ke profil -->
+            <a href="{{ route('users.profile') }}"
+                class="text-sm text-gray-700 font-medium hover:text-blue-600 {{ request()->is('users/profile') ? 'font-bold text-blue-600' : '' }}">
+                {{ Auth::user()->name }}
+            </a>
+            @endif
+            @else
+            <a href="{{ route('login') }}" class="text-sm text-blue-600 hover:text-blue-800 transition">Login</a>
+            <a href="{{ route('register') }}" class="text-sm text-blue-600 hover:text-blue-800 transition">Daftar</a>
             @endauth
         </div>
+
 
         <!-- Hamburger Menu -->
         <div class="md:hidden">
@@ -68,24 +65,26 @@
         <a href="{{ url('/#about') }}" class="block py-2">Tentang</a>
         <a href="{{ url('/#contact') }}" class="block py-2">Kontak</a>
         @auth
-            @if(Auth::user()->is_admin)
-                <a href="{{ route('admin.profile') }}" class="block py-2">Profil Admin</a>
-                <a href="{{ route('admin.dashboard') }}" class="block py-2">Dashboard</a>
-            @else
-                <a href="{{ route('users.profile') }}" class="block py-2">{{ Auth::user()->name }}</a>
-            @endif
+        @if(Auth::user()->is_admin)
+        <a href="{{ route('admin.dashboard') }}" class="block py-2 {{ request()->is('admin/dashboard') ? 'font-bold text-blue-600' : '' }}">Dashboard</a>
+        <a href="{{ route('admin.profile') }}" class="block py-2 {{ request()->is('admin/profile') ? 'font-bold text-blue-600' : '' }}">{{ Auth::user()->name }}</a>
         @else
-            <a href="{{ route('login') }}" class="block py-2">Login</a>
-            <a href="{{ route('register') }}" class="block py-2">Daftar</a>
+        <a href="{{ route('users.profile') }}" class="block py-2 {{ request()->is('users/profile') ? 'font-bold text-blue-600' : '' }}">{{ Auth::user()->name }}</a>
+        @endif
+        @else
+        <a href="{{ route('login') }}" class="block py-2">Login</a>
+        <a href="{{ route('register') }}" class="block py-2">Daftar</a>
         @endauth
+
     </div>
 
+
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function() {
             const navToggle = document.getElementById('nav-toggle');
             const navMenu = document.getElementById('nav-menu');
 
-            navToggle.addEventListener('click', function () {
+            navToggle.addEventListener('click', function() {
                 navMenu.classList.toggle('hidden');
             });
         });
