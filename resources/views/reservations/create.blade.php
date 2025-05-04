@@ -8,7 +8,7 @@
         <div class="bg-white rounded-xl overflow-hidden shadow-lg">
             <img src="{{ $room->image_url ? asset($room->image_url) : 'https://via.placeholder.com/600x400?text=No+Image' }}"
                 alt="Room Image"
-                class="w-full h-64 object-cover">
+                class="w-full h-full object-cover">
         </div>
 
         <!-- Kolom 2: Detail Kamar -->

@@ -13,7 +13,9 @@ class ReservationController extends Controller
 {
     public function index()
     {
-        $reservations = Reservation::where('user_id', Auth::id())->get();
+        $reservations = Reservation::where('user_id', Auth::id())
+            ->where('status', 'active') // hanya tampilkan yang belum checkout
+            ->get();
         return view('reservations.index', compact('reservations'));
     }
 
@@ -35,11 +37,11 @@ class ReservationController extends Controller
         $exists = Reservation::where('room_id', $request->room_id)
             ->where(function ($query) use ($request) {
                 $query->whereBetween('check_in', [$request->check_in, $request->check_out])
-                      ->orWhereBetween('check_out', [$request->check_in, $request->check_out])
-                      ->orWhere(function ($query2) use ($request) {
-                          $query2->where('check_in', '<=', $request->check_in)
-                                 ->where('check_out', '>=', $request->check_out);
-                      });
+                    ->orWhereBetween('check_out', [$request->check_in, $request->check_out])
+                    ->orWhere(function ($query2) use ($request) {
+                        $query2->where('check_in', '<=', $request->check_in)
+                            ->where('check_out', '>=', $request->check_out);
+                    });
             })->exists();
 
         if ($exists) {
@@ -51,7 +53,7 @@ class ReservationController extends Controller
             'room_id' => $request->room_id,
             'check_in' => $request->check_in,
             'check_out' => $request->check_out,
-            'status' => 'aktif', // tambahkan ini
+            'status' => 'active', // tambahkan ini
         ]);
 
         return redirect()->route('reservations.index')->with('success', 'Reservasi berhasil dilakukan.');
@@ -78,11 +80,11 @@ class ReservationController extends Controller
             ->where('id', '!=', $reservation->id)
             ->where(function ($query) use ($request) {
                 $query->whereBetween('check_in', [$request->check_in, $request->check_out])
-                      ->orWhereBetween('check_out', [$request->check_in, $request->check_out])
-                      ->orWhere(function ($query2) use ($request) {
-                          $query2->where('check_in', '<=', $request->check_in)
-                                 ->where('check_out', '>=', $request->check_out);
-                      });
+                    ->orWhereBetween('check_out', [$request->check_in, $request->check_out])
+                    ->orWhere(function ($query2) use ($request) {
+                        $query2->where('check_in', '<=', $request->check_in)
+                            ->where('check_out', '>=', $request->check_out);
+                    });
             })->exists();
 
         if ($exists) {
@@ -114,28 +116,19 @@ class ReservationController extends Controller
     }
 
     public function checkout($id)
-    {
-        $reservation = Reservation::findOrFail($id);
-        
-        // Hanya admin yang bisa melakukan check-out
-        if (auth()->user()->is_admin) {
-            // Pindahkan reservasi ke riwayat (misalnya menambahkan ke kolom riwayat di database, atau menandainya)
-            $reservation->update([
-                'status' => 'checked_out',  // Pastikan ada kolom status atau flag lainnya
-                'checked_out_at' => now(),  // Tambahkan timestamp ketika check-out
-            ]);
+{
+    $reservation = Reservation::findOrFail($id);
 
-            // Simpan data ke riwayat pengguna (bisa dilakukan dengan relasi atau menyimpan di tabel terpisah)
-            $reservation->user->reservationsHistory()->save($reservation);  // Pastikan ada relasi reservationsHistory() di User model
+    if (auth()->user()->is_admin) {
+        $reservation->update([
+            'status' => 'checked_out',
+            'checked_out_at' => now(),
+        ]);
 
-            // Hapus dari daftar reservasi aktif
-            $reservation->delete();
-
-            return redirect()->route('reservations.index')->with('success', 'Reservasi berhasil di-checkout.');
-        }
-
-        return abort(403, 'Akses ditolak');
+        return redirect()->route('admin.reservations')->with('success', 'Reservasi berhasil di-checkout.');
     }
 
-    
+    return abort(403, 'Akses ditolak');
+}
+
 }

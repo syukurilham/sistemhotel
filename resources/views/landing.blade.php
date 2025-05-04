@@ -3,10 +3,10 @@
 @section('content')
 <div class="bg-white">
     <!-- Hero Section -->
-    <section class="bg-cover bg-center h-screen relative" style="background-image: url('/images/hotel.jpg')">
+    <section class="bg-cover bg-center h-screen relative" style="background-image: url('https://lh6.googleusercontent.com/proxy/pLg5uFcEwkEBGhlByzb7AhUVp1t3bvZWSUoJlnZxN5dQh6Iv9Zbt1bsE6U8k5oZHzAqczX-b480gD8GbbPdw4lggvhZJYn5wUm9kPsEK7XaFnPHsFXm5xk3Bbzt9Yh_EK32lxS-XnkUOpX3hNYD5XB_xCyNky7ctoQn-KyQtd0COGKveJklg')">
         <div class="absolute inset-0 bg-black bg-opacity-60 flex items-center justify-center">
             <div class="text-center text-white px-4">
-                <h1 class="text-4xl sm:text-6xl font-bold mb-4 animate-fade-in-down">Selamat Datang di HotelKu</h1>
+                <h1 class="text-4xl sm:text-6xl font-bold mb-4 animate-fade-in-down">Selamat Datang di HotelKita</h1>
                 <p class="text-lg mb-6 animate-fade-in-up">Pesan kamar impianmu dengan mudah dan cepat</p>
                 <a href="{{ route('rooms.index') }}" class="bg-blue-600 px-6 py-3 rounded-lg text-white hover:bg-blue-700 transition">Lihat Kamar</a>
             </div>
@@ -16,7 +16,7 @@
     <!-- Tentang -->
     <section id="about" class="py-16 px-4 text-center max-w-5xl mx-auto">
         <h2 class="text-3xl font-bold mb-4">Tentang Kami</h2>
-        <p class="text-gray-600">HotelKu adalah hotel modern dengan fasilitas terbaik dan pelayanan prima...</p>
+        <p class="text-gray-600">HotelKita adalah hotel modern dengan fasilitas terbaik dan pelayanan prima...</p>
     </section>
 
     <!-- Fitur -->
@@ -43,8 +43,8 @@
     <!-- Kontak -->
     <section id="contact" class="py-16 px-4 bg-white max-w-4xl mx-auto text-center">
         <h2 class="text-3xl font-bold mb-6">Hubungi Kami</h2>
-        <p class="text-gray-600 mb-4">Telepon: (021) 123-456 | Email: info@hotelku.com</p>
-        <a href="mailto:info@hotelku.com" class="inline-block mt-4 bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 transition">Kirim Email</a>
+        <p class="text-gray-600 mb-4">Telepon: (0851-5531-7797) | Email: kionika80@gmail.com</p>
+        <a href="mailto:kionika80@gmail.com" class="inline-block mt-4 bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 transition">Kirim Email</a>
     </section>
 </div>
 @endsection

@@ -25,6 +25,8 @@ public function room()
         'room_id',
         'check_in',
         'check_out',
+        'status',
+        'checked_out_at',
     ];
 
     protected $casts = [

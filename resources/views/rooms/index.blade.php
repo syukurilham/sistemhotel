@@ -4,14 +4,15 @@
 
 <div class="bg-gray-100 py-10 px-4 sm:px-8">
     <div class="max-w-7xl mx-auto">
-    @if(Auth::user()->role === 'admin')
-                <div class="mb-6 text-right">
-                    <a href="{{ route('rooms.create') }}"
-                        class="inline-block px-5 py-2 bg-green-600 text-white font-semibold rounded-lg shadow hover:bg-green-700 transition duration-300">
-                        + Tambah Kamar
-                    </a>
-                </div>
-            @endif
+        @if(Auth::user()->role === 'admin')
+        <div class="mb-6 text-right">
+            <a href="{{ route('rooms.create') }}"
+                class="inline-block px-5 py-2 bg-indigo-600 text-white font-semibold rounded-full shadow hover:bg-indigo-700 transition duration-300">
+                + Tambah Kamar
+            </a>
+        </div>
+        @endif
+
         <h1 class="text-3xl font-bold mb-6 text-center text-gray-800">Pilih Kamar Anda</h1>
 
         {{-- Filter Kategori --}}
@@ -55,21 +56,22 @@
                     </div>
                     @endif
 
-                    <div class="flex flex-wrap gap-2">
+                    <div class="flex flex-wrap gap-3 mt-4">
                         <a href="{{ route('reservations.create', ['room_id' => $room->id]) }}"
-                        class="inline-block px-4 py-2 bg-indigo-600 text-white text-sm font-semibold rounded-lg hover:bg-indigo-700 transition duration-300">
+                            class="inline-block px-4 py-2 bg-indigo-600 text-white text-sm font-semibold rounded-full hover:bg-indigo-700 transition duration-300">
                             Reservasi Sekarang
                         </a>
 
                         @auth
-                            @if(Auth::user()->role === 'admin')
-                                <a href="{{ route('rooms.edit', $room->id) }}"
-                                class="inline-block px-4 py-2 bg-yellow-500 text-white text-sm font-semibold rounded-lg hover:bg-yellow-600 transition duration-300">
-                                    Edit
-                                </a>
-                            @endif
+                        @if(Auth::user()->role === 'admin')
+                        <a href="{{ route('rooms.edit', $room->id) }}"
+                            class="inline-flex items-center gap-2 px-4 py-2 bg-indigo-100 text-indigo-700 text-sm font-medium rounded-full hover:bg-indigo-200 transition duration-300">
+                            ✏️ Edit
+                        </a>
+                        @endif
                         @endauth
                     </div>
+
                 </div>
             </div>
             @empty
