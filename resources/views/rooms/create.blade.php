@@ -22,7 +22,11 @@
         </div>
         <div class="mb-3">
             <label>Tipe Kamar</label>
-            <input type="text" name="type" class="form-control" required>
+            <select name="type" id="type" class="w-full border rounded px-3 py-2">
+            <option value="Standard" {{ old('type', $room->type ?? '') == 'Standard' ? 'selected' : '' }}>Standard</option>
+            <option value="Deluxe" {{ old('type', $room->type ?? '') == 'Deluxe' ? 'selected' : '' }}>Deluxe</option>
+            <option value="Suite" {{ old('type', $room->type ?? '') == 'Suite' ? 'selected' : '' }}>Suite</option>
+            </select>
         </div>
         <div class="mb-3">
             <label>Harga per Malam</label>

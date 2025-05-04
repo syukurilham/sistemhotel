@@ -18,4 +18,18 @@ public function room()
     return $this->belongsTo(Room::class);
 }
 
+    use HasFactory;
+
+    protected $fillable = [
+        'user_id',
+        'room_id',
+        'check_in',
+        'check_out',
+    ];
+
+    protected $casts = [
+        'check_in' => 'datetime',
+        'check_out' => 'datetime',
+    ];
+
 }

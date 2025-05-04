@@ -31,6 +31,13 @@ Route::middleware(['auth'])->group(function () {
     // Route::middleware(['role:admin'])->group(function () {
     // Route::get('/admin/reservations', [AdminReservationController::class, 'index'])->name('admin.reservations');
     // });
+
+     Route::resource('rooms', RoomController::class);
+    Route::resource('reservations', ReservationController::class);
+
+    // Rute untuk pembuatan reservasi
+    Route::get('/reservations/create', [ReservationController::class, 'create'])->name('reservations.create');
+    
 });
 
 Route::middleware([CheckRole::class . ':admin'])->group(function () {
