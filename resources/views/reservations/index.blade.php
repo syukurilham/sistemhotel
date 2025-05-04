@@ -60,4 +60,28 @@
         </div>
     </div>
 </div>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Error Alert (jika ada)
+        const errorAlert = document.getElementById('errorAlert');
+        if (errorAlert) {
+            setTimeout(() => {
+                errorAlert.classList.add('transition', 'duration-500', 'ease-in-out');
+                errorAlert.style.opacity = '0';
+                setTimeout(() => errorAlert.remove(), 500);
+            }, 4000); // 4 detik
+        }
+
+        // Success Alert (jika ada)
+        const successAlert = document.getElementById('successAlert');
+        if (successAlert) {
+            setTimeout(() => {
+                successAlert.classList.add('transition', 'duration-500', 'ease-in-out');
+                successAlert.style.opacity = '0';
+                setTimeout(() => successAlert.remove(), 500);
+            }, 4000); // 4 detik
+        }
+    });
+</script>
+
 @endsection

@@ -1,6 +1,6 @@
 <nav class="bg-white shadow-md fixed top-0 w-full z-50 animate__animated animate__fadeInDown">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center h-16">
-        <a href="{{ url('/') }}" class="text-xl font-bold text-blue-600">HotelKu</a>
+        <a href="{{ url('/') }}" class="text-xl font-bold text-blue-600">HotelKita</a>
 
         <div class="hidden md:flex space-x-6">
             <a href="{{ url('/') }}"
@@ -34,7 +34,7 @@
                 Dashboard
             </a>
             <!-- Nama Admin sebagai link ke profil -->
-            <a href="{{ route('users.profile') }}" class="text-sm text-gray-700 font-medium hover:text-blue-600 {{ request()->is('users/profile') ? 'font-bold text-blue-600' : '' }}">
+            <a href="{{ route('users.profile') }}" class="text-sm text-gray-700 font-medium hover:text-blue-600 mt-1 {{ request()->is('users/profile') ? 'font-bold text-blue-600' : '' }}">
                 {{ Auth::user()->name }}
             </a>
             @else

@@ -60,4 +60,19 @@
         </div>
     </form>
 </div>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const errorAlert = document.getElementById('errorAlert');
+        if (errorAlert) {
+            setTimeout(() => {
+                errorAlert.classList.add('transition', 'duration-500', 'ease-in-out');
+                errorAlert.style.opacity = '0';
+                setTimeout(() => {
+                    errorAlert.remove();
+                }, 500); // tunggu animasi selesai sebelum menghapus dari DOM
+            }, 4000); // 4000ms = 4 detik
+        }
+    });
+</script>
+
 @endsection
