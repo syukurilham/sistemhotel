@@ -17,7 +17,9 @@ class RoomController extends Controller
             $query->where('type', $request->type);
         }
 
-        $rooms = $query->where('is_available', true)->get();
+        $query->where('is_available', true); // Jangan ditaruh langsung di $rooms
+
+        $rooms = $query->latest()->get(); // Tambahkan sort juga jika perlu
 
         return view('rooms.index', compact('rooms'));
     }
@@ -37,11 +39,16 @@ class RoomController extends Controller
     {
         $request->validate([
             'room_number' => 'required|unique:rooms',
-            'type' => 'required',
+            'type' => 'required|in:Standard,Deluxe,Suite',
             'price' => 'required|integer',
         ]);
 
-        Room::create($request->all());
+        Room::create([
+            'room_number' => $request->room_number,
+            'type' => ucfirst(strtolower($request->type)), // Normalisasi kapitalisasi
+            'price' => $request->price,
+            'is_available' => true, // Default true saat ditambahkan
+        ]);
         return redirect()->route('rooms.index')->with('success', 'Kamar berhasil ditambahkan.');
     }
 
@@ -70,11 +77,16 @@ class RoomController extends Controller
 
         $request->validate([
             'room_number' => 'required|unique:rooms,room_number,' . $room->id,
-            'type' => 'required',
+            'type' => 'required|in:Standard,Deluxe,Suite',
             'price' => 'required|integer',
         ]);
 
-        $room->update($request->all());
+        $room->update([
+            'room_number' => $request->room_number,
+            'type' => ucfirst(strtolower($request->type)),
+            'price' => $request->price,
+            'is_available' => $request->has('is_available') ? $request->is_available : $room->is_available,
+        ]);
         return redirect()->route('rooms.index')->with('success', 'Kamar berhasil diperbarui.');
     }
 
