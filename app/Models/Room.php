@@ -11,5 +11,7 @@ class Room extends Model
         'type',
         'price',
         'is_available',
+        'description',       // <= tambahkan ini
+        'image_url',
     ];
 }

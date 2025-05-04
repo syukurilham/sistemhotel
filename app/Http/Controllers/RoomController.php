@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Room;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class RoomController extends Controller
 {
@@ -36,21 +37,32 @@ class RoomController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-    {
-        $request->validate([
-            'room_number' => 'required|unique:rooms',
-            'type' => 'required|in:Standard,Deluxe,Suite',
-            'price' => 'required|integer',
-        ]);
+{
+    $request->validate([
+        'room_number' => 'required|string|max:10|unique:rooms,room_number',
+        'type' => 'required|string',
+        'price' => 'required|numeric',
+        'is_available' => 'required|boolean',
+        'description' => 'nullable|string',
+        'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+    ]);
 
-        Room::create([
-            'room_number' => $request->room_number,
-            'type' => ucfirst(strtolower($request->type)), // Normalisasi kapitalisasi
-            'price' => $request->price,
-            'is_available' => true, // Default true saat ditambahkan
-        ]);
-        return redirect()->route('rooms.index')->with('success', 'Kamar berhasil ditambahkan.');
+    $imagePath = null;
+    if ($request->hasFile('image')) {
+        $imagePath = $request->file('image')->store('room_images', 'public');
     }
+
+    \App\Models\Room::create([
+        'room_number' => $request->room_number,
+        'type' => $request->type,
+        'price' => $request->price,
+        'is_available' => $request->is_available,
+        'description' => $request->description,
+        'image_url' => $imagePath ? '/storage/' . $imagePath : null,
+    ]);
+
+    return redirect()->route('rooms.index')->with('success', 'Kamar berhasil ditambahkan.');
+}
 
     /**
      * Display the specified resource.
