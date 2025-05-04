@@ -38,7 +38,7 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 animate__animated animate__fadeInUp">
             @forelse ($rooms as $room)
             <div class="bg-white rounded-2xl shadow-md overflow-hidden transform hover:scale-105 transition duration-300">
-                <img src="{{ $room->image_url ?? 'https://source.unsplash.com/400x300/?hotel,room' }}" alt="Room Image" class="w-full h-48 object-cover">
+                <img src="{{ $room->image_url ?? 'https://cozzy.id/uploads/0000/630/2024/11/22/cozzyid-hotel-murah-hotel-terdekat-penginapan-murah-penginapan-terdekat-booking-hotel-booking-hotel-semarang-sumber-gambar-hotelgrasia.jpg' }}" alt="Room Image" class="w-full h-48 object-cover">
                 <div class="p-5">
                     <h2 class="text-xl font-semibold text-gray-800 mb-2">Kamar {{ $room->room_number }} ({{ $room->type }})</h2>
                     <p class="text-gray-600 text-sm mb-1">Harga: <span class="font-bold text-indigo-600">Rp{{ number_format($room->price, 0, ',', '.') }}</span></p>

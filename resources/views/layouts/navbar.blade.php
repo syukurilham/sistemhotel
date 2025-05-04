@@ -11,6 +11,10 @@
                 class="hover:text-blue-600 transition duration-300 {{ request()->is('rooms*') ? 'font-bold text-blue-600 border-b-2 border-blue-600' : '' }}">
                 Kamar
             </a>
+            <a href="{{ route('reservations.index') }}"
+                class="hover:text-blue-600 transition duration-300 {{ request()->is('reservations*') ? 'font-bold text-blue-600 border-b-2 border-blue-600' : '' }}">
+                Reservasi
+            </a>
             <a href="{{ url('/#about') }}"
                 class="hover:text-blue-600 transition duration-300 {{ request()->fullUrlIs('*#about') ? 'font-bold text-blue-600 border-b-2 border-blue-600' : '' }}">
                 Tentang
