@@ -38,26 +38,38 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 animate__animated animate__fadeInUp">
             @forelse ($rooms as $room)
             <div class="bg-white rounded-2xl shadow-md overflow-hidden transform hover:scale-105 transition duration-300">
-                <img src="{{ $room->image_url ?? 'https://cozzy.id/uploads/0000/630/2024/11/22/cozzyid-hotel-murah-hotel-terdekat-penginapan-murah-penginapan-terdekat-booking-hotel-booking-hotel-semarang-sumber-gambar-hotelgrasia.jpg' }}" alt="Room Image" class="w-full h-48 object-cover">
+                <img src="{{ $room->image_url ? asset($room->image_url) : 'https://via.placeholder.com/400x250?text=No+Image' }}" alt="Room Image" class="w-full h-48 object-cover">
+
                 <div class="p-5">
-                    <h2 class="text-xl font-semibold text-gray-800 mb-2">Kamar {{ $room->room_number }} ({{ $room->type }})</h2>
+                    <h2 class="text-xl font-semibold text-gray-800 mb-1">Kamar {{ $room->room_number }} ({{ $room->type }})</h2>
                     <p class="text-gray-600 text-sm mb-1">Harga: <span class="font-bold text-indigo-600">Rp{{ number_format($room->price, 0, ',', '.') }}</span></p>
-                    <p class="text-gray-600 text-sm mb-3">Status:
+                    <p class="text-gray-600 text-sm mb-1">Status:
                         <span class="font-semibold {{ $room->is_available ? 'text-green-600' : 'text-red-500' }}">
                             {{ $room->is_available ? 'Tersedia' : 'Tidak Tersedia' }}
                         </span>
                     </p>
-                    <a href="{{ route('reservations.create', ['room_id' => $room->id]) }}" class="inline-block px-4 py-2 bg-indigo-600 text-white text-sm font-semibold rounded-lg hover:bg-indigo-700 transition duration-300">
-                        Reservasi Sekarang
-                    </a>
 
-                    @auth
-                        @if(Auth::user()->role === 'admin')
-                            <a href="{{ route('rooms.edit', $room->id) }}" class="inline-block px-4 py-2 bg-yellow-500 text-white text-sm font-semibold rounded-lg hover:bg-yellow-600 transition duration-300">
-                                Edit
-                            </a>
-                        @endif
-                    @endauth
+                    @if ($room->description)
+                    <div class="text-gray-700 text-sm mt-3 mb-4">
+                        <p class="line-clamp-3">{{ $room->description }}</p>
+                    </div>
+                    @endif
+
+                    <div class="flex flex-wrap gap-2">
+                        <a href="{{ route('reservations.create', ['room_id' => $room->id]) }}"
+                        class="inline-block px-4 py-2 bg-indigo-600 text-white text-sm font-semibold rounded-lg hover:bg-indigo-700 transition duration-300">
+                            Reservasi Sekarang
+                        </a>
+
+                        @auth
+                            @if(Auth::user()->role === 'admin')
+                                <a href="{{ route('rooms.edit', $room->id) }}"
+                                class="inline-block px-4 py-2 bg-yellow-500 text-white text-sm font-semibold rounded-lg hover:bg-yellow-600 transition duration-300">
+                                    Edit
+                                </a>
+                            @endif
+                        @endauth
+                    </div>
                 </div>
             </div>
             @empty

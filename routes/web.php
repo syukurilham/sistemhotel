@@ -34,6 +34,8 @@ Route::middleware(['auth'])->group(function () {
 
      Route::resource('rooms', RoomController::class);
     Route::resource('reservations', ReservationController::class);
+    Route::post('/reservations/{reservation}/checkout', [ReservationController::class, 'checkout'])->name('reservations.checkout');
+
 
     // Rute untuk pembuatan reservasi
     Route::get('/reservations/create', [ReservationController::class, 'create'])->name('reservations.create');
@@ -42,6 +44,7 @@ Route::middleware(['auth'])->group(function () {
 
 Route::middleware([CheckRole::class . ':admin'])->group(function () {
     Route::get('/admin/reservations', [AdminReservationController::class, 'index'])->name('admin.reservations');
+    Route::post('/admin/reservations/{reservation}/checkout', [AdminReservationController::class, 'checkout'])->name('admin.reservations.checkout');
 });
 
 // Rute dashboard hanya untuk user yang sudah login

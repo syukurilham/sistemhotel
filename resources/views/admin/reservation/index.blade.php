@@ -21,6 +21,8 @@
                         <th class="px-6 py-3 text-left text-xs font-bold text-gray-600 uppercase">Tanggal Masuk</th>
                         <th class="px-6 py-3 text-left text-xs font-bold text-gray-600 uppercase">Tanggal Keluar</th>
                         <th class="px-6 py-3 text-left text-xs font-bold text-gray-600 uppercase">Status</th>
+                        <th class="px-6 py-3 text-left text-xs font-bold text-gray-600 uppercase">Aksi</th>
+
                     </tr>
                 </thead>
                 <tbody class="bg-white divide-y divide-gray-200">
@@ -36,6 +38,18 @@
                                 {{ $res->status == 'confirmed' ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700' }}">
                                 {{ ucfirst($res->status) }}
                             </span>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            @if ($res->status === 'checked_out')
+                                <span class="text-sm text-gray-500">Selesai</span>
+                            @else
+                                <form action="{{ route('admin.reservations.checkout', $res->id) }}" method="POST" onsubmit="return confirm('Yakin ingin check out?')">
+                                    @csrf
+                                    <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded text-sm">
+                                        Check Out
+                                    </button>
+                                </form>
+                            @endif
                         </td>
                     </tr>
                     @endforeach

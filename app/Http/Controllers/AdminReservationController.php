@@ -19,5 +19,11 @@ class AdminReservationController extends Controller
     {
         return view('admin.index');
     }
+    public function checkout(Reservation $reservation)
+    {
+        $reservation->status = 'checked_out';
+        $reservation->save();
 
+        return redirect()->route('admin.reservations')->with('success', 'Reservasi berhasil di-check out.');
+    }
 }
