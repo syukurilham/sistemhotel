@@ -35,14 +35,15 @@ class ReservationController extends Controller
         ]);
 
         $exists = Reservation::where('room_id', $request->room_id)
-            ->where(function ($query) use ($request) {
-                $query->whereBetween('check_in', [$request->check_in, $request->check_out])
-                    ->orWhereBetween('check_out', [$request->check_in, $request->check_out])
-                    ->orWhere(function ($query2) use ($request) {
-                        $query2->where('check_in', '<=', $request->check_in)
-                            ->where('check_out', '>=', $request->check_out);
-                    });
-            })->exists();
+        ->where('status', '!=', 'checked_out') // ⬅️ Tambahan penting
+        ->where(function ($query) use ($request) {
+        $query->whereBetween('check_in', [$request->check_in, $request->check_out])
+            ->orWhereBetween('check_out', [$request->check_in, $request->check_out])
+            ->orWhere(function ($query2) use ($request) {
+                $query2->where('check_in', '<=', $request->check_in)
+                    ->where('check_out', '>=', $request->check_out);
+            });
+        })->exists();
 
         if ($exists) {
             return back()->withErrors(['room_id' => 'Kamar sudah dipesan pada tanggal tersebut.']);
